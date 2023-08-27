@@ -700,7 +700,7 @@ cnf_matrix = cnf_matrix1 + cnf_matrix2 + cnf_matrix3 + cnf_matrix4 + cnf_matrix5
 plot_confusion_matrix(cm           = cnf_matrix, 
                       normalize    = False,
                       target_names = ['BENIGN', 'MALIGNANT'],
-                      title        = "CAAM BAAM")
+                      title        = "BAM")
 
 import time
 for i in range(5): 
@@ -726,20 +726,20 @@ kmeans.fit(tsne)
 y_kmeans = kmeans.predict(tsne)
 scatter=plt.scatter(tsne[:, 0], tsne[:, 1], c=y_kmeans, s=50, cmap='viridis')
 plt.legend(handles=scatter.legend_elements()[0], labels=['BENIGN', 'MALIGNANT'],loc='lower right')
-plt.savefig("DAM.jpg",bbox_inches = 'tight', dpi=300)
+plt.savefig("BAM.jpg",bbox_inches = 'tight', dpi=300)
 ##################################Roc Curve ##############################################
 from sklearn import metrics
 
 models = []
-model = load_model("BREAKHIST_FOLD_4.h5", custom_objects={'f1': f1, 'precision': precision, 'recall': recall, 'DAM': DAM})
+model = load_model("BREAKHIST_FOLD_4.h5",custom_objects={'loss': losses})
 models.append(model)
-model = load_model("BREAKHIST_FOLD_4-A.h5", custom_objects={'f1': f1, 'precision': precision, 'recall': recall, 'SphereFace': SphereFace})
+model = load_model("BREAKHIST_FOLD_4-A.h5", custom_objects={'loss': losses})
 models.append(model)
-model = load_model("BREAKHIST_FOLD_4-CosFace.h5", custom_objects={'f1': f1, 'precision': precision, 'recall': recall, 'CosFace': CosFace})
+model = load_model("BREAKHIST_FOLD_4-CosFace.h5", custom_objects={'loss': losses})
 models.append(model)
-model = load_model("BREAKHIST_FOLD_4-R.h5", custom_objects={'f1': f1, 'precision': precision, 'recall': recall, 'ArcFace': ArcFace})
+model = load_model("BREAKHIST_FOLD_4-R.h5", custom_objects={'loss': losses})
 models.append(model)
-model = load_model("BREAKHIST_FOLD_4-CM.h5", custom_objects={'f1': f1, 'precision': precision, 'recall': recall, 'DAM': DAM})
+model = load_model("BREAKHIST_FOLD_4-CM.h5", custom_objects={'loss': losses})
 models.append(model)
 
 y_preds1 = models[0].predict([x,y])[:, 1]
@@ -753,19 +753,19 @@ plt.title('Fold 5')
 plt.ylabel('True Positive Rate')
 plt.xlabel('False Positive Rate')
 
-fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds2)
+fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds1)
 auc = round(metrics.roc_auc_score(y.argmax(axis=1), y_preds2), 4)
 plt.plot(fpr,tpr,label="Softmax, AUC="+str(auc))
 
-fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds3)
+fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds2)
 auc = round(metrics.roc_auc_score(y.argmax(axis=1), y_preds3), 4)
 plt.plot(fpr,tpr,label="A-Softmax, AUC="+str(auc))
 
-fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds4)
+fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds3)
 auc = round(metrics.roc_auc_score(y.argmax(axis=1), y_preds4), 4)
 plt.plot(fpr,tpr,label="CosFace, AUC="+str(auc))
 
-fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds1)
+fpr, tpr, _ = metrics.roc_curve(y.argmax(axis=1), y_preds4)
 auc = round(metrics.roc_auc_score(y.argmax(axis=1), y_preds1), 4)
 plt.plot(fpr,tpr,label="ArcFace, AUC="+str(auc))
 
@@ -802,6 +802,6 @@ plt.xlabel('Epochs')
 plt.plot(lst,aa,label="train")
 plt.plot(lst,bb,label="val")
 plt.legend()
-plt.savefig("damAcc.jpg",bbox_inches = 'tight', dpi=300)
+plt.savefig("bamAcc.jpg",bbox_inches = 'tight', dpi=300)
 loss: 0.2634 - precision: 0.8805 - recall: 0.8805 - f1: 0.8805 - acc: 0.8805 - val_loss: 0.3951 - val_precision: 0.8558 - val_recall: 0.8558 - val_f1: 0.8558 - val_acc: 0.8558
 
