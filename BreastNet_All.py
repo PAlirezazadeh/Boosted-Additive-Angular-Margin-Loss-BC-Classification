@@ -1,3 +1,5 @@
+# BreastNet architecture by @Goodsea (https://github.com/Goodsea)
+
 import os
 import warnings
 warnings.filterwarnings('ignore')
