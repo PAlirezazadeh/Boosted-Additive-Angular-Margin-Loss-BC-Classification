@@ -1,6 +1,4 @@
-"""
-This script was modified from https://github.com/ZhaoJ9014/face.evoLVe.PyTorch
-"""
+
 import os
 import cv2
 import bcolz
