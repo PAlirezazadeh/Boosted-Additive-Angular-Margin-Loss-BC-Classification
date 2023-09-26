@@ -26,6 +26,7 @@ from layers import (
     ArcMarginPenaltyLogists,
     AddMarginPenaltyLogists,
     MulMarginPenaltyLogists,
+    BAM,
     CurMarginPenaltyLogists,
     CadMarginPenaltyLogists,
     AdaMarginPenaltyLogists
@@ -251,6 +252,15 @@ def SphereHead(num_classes, margin=1.35, logist_scale=30, name='SphereHead'):
         x = MulMarginPenaltyLogists(num_classes=num_classes, margin=margin, logist_scale=logist_scale)(x, y)
         return Model((inputs1, y), x, name=name)((x_in, y_in))
     return sphere_head
+
+def BAMHead(num_classes, margin=0.45, bmargin=0.05, logist_scale=30, name='BAMHead'):
+    """BAM Head"""
+    def bam_head(x_in, y_in):
+        x = inputs1 = Input(x_in.shape[1:])
+        y = Input(y_in.shape[1:], dtype=tf.int32)
+        x = BAM(num_classes=num_classes, margin=margin, bmargin=bmargin, logist_scale=logist_scale)(x, y)
+        return Model((inputs1, y), x, name=name)((x_in, y_in))
+    return bam_head
 
 def NormHead(num_classes, w_decay=5e-4, name='NormHead'):
     """Norm Head"""
