@@ -170,7 +170,7 @@ class BAM(tf.keras.layers.Layer):
         # clip logits to prevent zero division when backward
         theta = tf.math.acos(K.clip(logits, -1.0 + K.epsilon(), 1.0 - K.epsilon()))
         target_logits = tf.math.cos(self.m + theta)
-        untarget_logits = logits - self.mb
+        untarget_logits = logits + self.mb
         y = tf.one_hot(tf.cast(labels, tf.int32), depth=self.num_classes)
         logits = untarget_logits * (1 - y) + target_logits * y
         # feature re-scale
